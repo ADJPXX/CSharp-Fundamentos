@@ -136,7 +136,7 @@ do
             Console.WriteLine("Seu número é IMPAR");
         }
     }
-    
+
 } while (!valido);
 
 
@@ -203,7 +203,7 @@ double media;
 while(numeros.Count < 5)
 {
     Console.Write($"Digite o número {numeros.Count + 1}: ");
-    
+
     if (int.TryParse(Console.ReadLine(), out numeroUsuario))
     {
         numeros.Add(numeroUsuario);
@@ -234,7 +234,7 @@ Console.WriteLine(CalcularMedia(numeros));
 static int MaiorNumero(List<int> numeros)
 {
     int maiornumero = numeros[0];
-    
+
     foreach(int numero in numeros)
     {
         if (numero > maiornumero)
@@ -277,7 +277,7 @@ class Pessoa
     }
 
     private int idade;
-    
+
     public int Idade
     {
         get { return idade;}
@@ -289,15 +289,15 @@ class Pessoa
             }
         }
     }
-    
+
     public void Apresentar()
     {
         Console.WriteLine($"Olá, meu nome é {Nome} e tenho {Idade} anos");
     }
-    
+
 }
 
-*/
+
 //AULA 13 - CONSTRUTORES
 Produto p = new Produto("Teclado", 150, 20);
 p.Vender(3);
@@ -316,7 +316,7 @@ class Produto
 
         if (string.IsNullOrWhiteSpace(nome))
             throw new Exception("NOME INVÁLIDO.");
-        
+
         if (estoque < 0)
             throw new Exception("ESTOQUE INVÁLIDO.");
 
@@ -334,3 +334,325 @@ class Produto
         Estoque -= quantidade;
     }
 }
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 1)
+class Aluno
+{
+    public string Nome { get; private set; }
+    public double Nota1 { get; private set; }
+    public double Nota2 { get; private set; }
+
+    public Aluno(string nome, double nota1, double nota2)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new Exception("NOME INVÁLIDO");
+        if (nota1 < 0)
+            throw new Exception("NOTA INVALIDA.");
+        if (nota2 < 0)
+            throw new Exception("NOTA INVALIDA.");
+
+        Nome = nome;
+        Nota1 = nota1;
+        Nota2 = nota2;
+    }
+
+    public double CalcularMedia()
+    {
+        return (Nota1 + Nota2) / 2;
+    }
+
+    public bool Aprovado()
+    {
+        return CalcularMedia() >= 6;
+    }
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 2)
+
+Aluno a1 = new Aluno("Adriel", 10, 5);
+Aluno a2 = new Aluno("Rafael", 8, 1);
+Aluno a3 = new Aluno("Kaue", 0, 0);
+Turma t = new Turma();
+t.AdicionarAluno(a1);
+t.AdicionarAluno(a2);
+t.AdicionarAluno(a3);
+
+Console.WriteLine($"Media da turma: {t.MediaDaTurma()}");
+Console.WriteLine($"Quantidade de aprovados: {t.QuantidadeAprovados()}");
+
+class Aluno
+{
+    public string Nome { get; private set; }
+    public double Nota1 { get; private set; }
+    public double Nota2 { get; private set; }
+
+    public Aluno(string nome, double nota1, double nota2)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new Exception("NOME INVÁLIDO");
+        if (nota1 < 0)
+            throw new Exception("NOTA INVALIDA.");
+        if (nota2 < 0)
+            throw new Exception("NOTA INVALIDA.");
+
+        Nome = nome;
+        Nota1 = nota1;
+        Nota2 = nota2;
+    }
+
+    public double CalcularMedia()
+    {
+        return (Nota1 + Nota2) / 2;
+    }
+
+    public bool Aprovado()
+    {
+        return CalcularMedia() >= 6;
+    }
+}
+
+class Turma
+{
+    private List<Aluno> Alunos = [];
+
+    public void AdicionarAluno(Aluno aluno)
+    {
+        Alunos.Add(aluno);
+    }
+
+    public double MediaDaTurma()
+    {
+        double somaMedias = 0;
+        foreach (var aluno in Alunos)
+        {
+            somaMedias += aluno.CalcularMedia();
+        }
+
+        return somaMedias / Alunos.Count;
+    }
+
+    public int QuantidadeAprovados()
+    {
+        int aprovados = 0;
+        foreach (var aluno in Alunos)
+        {
+            if (aluno.Aprovado())
+                aprovados++;
+        }
+
+        return aprovados;
+    }
+
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 3)
+class ContaBancaria
+{
+    public string Titular { get; private set; }
+    public double Saldo { get; private set; }
+
+    public ContaBancaria(string titular, double saldo)
+    {
+        if (string.IsNullOrWhiteSpace(titular))
+            throw new Exception("TITULAR INVALIDO");
+        if (saldo < 0)
+            throw new Exception("SALDO INVALIDO");
+        Titular = titular;
+        Saldo = saldo;
+
+    }
+
+    public void Depositar(double valor)
+    {
+        if (valor <= 0)
+            throw new Exception("DEPOSITO NEGATIVO");
+        Saldo += valor;
+    }
+
+    public void Sacar(double valor)
+    {
+        if (valor <= 0)
+            throw new Exception("VALOR DE SAQUE NEGATIVO");
+        if (valor > Saldo)
+            throw new Exception("SALDO INVALIDO");
+        Saldo -= valor;
+    }
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 4)
+class Produto
+{
+    public string Nome { get; private set; }
+    public double Preco { get; private set; }
+
+    public Produto(string nome, double preco)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new Exception("NOME INVALIDO");
+        if (preco <= 0)
+            throw new Exception("PRECO INVALIDO");
+
+        Nome = nome;
+        Preco = preco;
+    }
+}
+
+class Pedido
+{
+    public List<Produto> produtos = [];
+
+    public void AdicionarProduto(Produto produto)
+    {
+        produtos.Add(produto);
+    }
+
+    public double CalcularTotal()
+    {
+        double soma = 0;
+        foreach (var produto in produtos)
+        {
+            soma += produto.Preco;
+        }
+
+        return soma;
+    }
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 5)
+class Temperatura
+{
+    public double valorTemperatura { get; private set; }
+
+    public Temperatura(double valortemperatura)
+    {
+        if (valortemperatura < -273.15)
+            throw new Exception();
+        valorTemperatura = valortemperatura;
+    }
+
+    public void AumentarTemperatura(double temperatura)
+    {
+        if (temperatura <= 0)
+            throw new Exception("VALOR INVALIDO");
+        valorTemperatura += temperatura;
+    }
+
+    public void DiminuirTemperatura(double temperatura)
+    {
+        if (temperatura <= 0)
+            throw new Exception("VALOR INVALIDO");
+        if (valorTemperatura - temperatura < -273.15)
+            throw new Exception("Temperatura não pode ser menor que -273.15");
+        valorTemperatura -= temperatura;
+    }
+
+    public double ConsultarTemperatura()
+    {
+        return valorTemperatura;
+    }
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 6)
+class Produto
+{
+    public string Nome { get; private set; }
+    public double Preco { get; private set; }
+
+    public Produto(string nome, double preco)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new Exception("NOME INVALIDO");
+        if (preco <= 0)
+            throw new Exception("PRECO INVALIDO");
+
+        Nome = nome;
+        Preco = preco;
+    }
+}
+
+class Pedido
+{
+    public bool Valido { get; private set; }
+    public List<Produto> Produtos { get; private set; }
+    public Pedido()
+    {
+        Valido = true;
+        Produtos = [];
+    }
+
+    public void AbrirPedido()
+    {
+        if (Valido == false)
+            Valido = true;
+    }
+
+    public void FecharPedido()
+    {
+        if (Valido)
+            Valido = false;
+    }
+
+    public void AdicionarProduto(Produto produto)
+    {
+        if (Valido)
+            Produtos.Add(produto);
+    }
+
+    public double CalcularValorTotal()
+    {
+        double soma = 0;
+        foreach (var produto in Produtos)
+        {
+            soma += produto.Preco;
+        }
+        return soma;
+    }
+}
+
+
+//EXERCICIOS - OOP ATÉ FIXAR (PARTE 7)
+class Aluno
+{
+    public string Nome { get; private set; }
+    private List<double> Notas { get; set; }
+
+    public Aluno(string nome)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new Exception("NOME INVALIDA");
+        
+        Nome = nome;
+        Notas = [];
+    }
+
+    public void AdicionarNota(double nota)
+    {
+        if (nota < 0 || nota > 10)
+            throw new Exception("NOTA INVALIDA");
+        Notas.Add(nota);
+    }
+
+    public double CalcularMedia()
+    {
+        double somaNotas = 0;
+        foreach (var nota in Notas)
+            somaNotas += nota;
+        
+        return somaNotas / Notas.Count;
+    }
+
+    public bool Aprovado()
+    {
+        return CalcularMedia() >= 7;
+    }
+}
+*/
+
+
+
+
